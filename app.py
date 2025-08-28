@@ -7,7 +7,7 @@ from openai import OpenAI
 # ==============================
 # CONFIGURACIÓN API KEY
 # ==============================
-os.environ["OPENAI_API_KEY"] = "123456"  # ⚠️ Reemplázalo con tu clave real
+os.environ["OPENAI_API_KEY"] = "123456"  
 client = OpenAI()
 
 # ==============================
