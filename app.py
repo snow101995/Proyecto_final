@@ -7,7 +7,7 @@ from openai import OpenAI
 # ==============================
 # CONFIGURACIÓN API KEY
 # ==============================
-api_key = st.secrets["OPENAI_API_KEY"]  
+client = OpenAI(api_key="OPENAI_API_KEY")  
 client = OpenAI()
 
 # ==============================
