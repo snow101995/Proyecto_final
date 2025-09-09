@@ -1,4 +1,3 @@
---extra-index-url https://download.pytorch.org/whl/cpu
 streamlit
 ultralytics==8.0.196
 pillow
@@ -7,6 +6,6 @@ scikit-learn
 openai
 langchain
 opencv-python-headless==4.8.1.78
-torch==2.2.0
-torchvision==0.17.0
-torchaudio==2.2.0
+torch==2.0.1
+torchvision==0.15.2
+torchaudio==2.0.2
