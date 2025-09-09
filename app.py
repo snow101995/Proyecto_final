@@ -6,7 +6,12 @@ import os, json
 # 🚨 Configuración rápida de API Key (solo pruebas, no producción)
 import streamlit as st
 import os
-os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+
+if "OPENAI_API_KEY" in st.secrets:
+    os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+else:
+    st.error("❌ No se encontró la API Key de OpenAI en Secrets.")
+    st.stop()
 
 # Cargar el modelo entrenado
 model_path = "best.pt"
