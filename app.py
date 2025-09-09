@@ -4,7 +4,9 @@ from PIL import Image
 import os, json
 
 # 🚨 Configuración rápida de API Key (solo pruebas, no producción)
-os.environ["OPENAI_API_KEY"] = "OPENAI_API_KEY"   # ← reemplaza con tu API Key real
+import streamlit as st
+import os
+os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 
 # Cargar el modelo entrenado
 model_path = "best.pt"
