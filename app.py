@@ -1,107 +1,44 @@
-import os
-import pandas as pd
 import streamlit as st
+from ultralytics import YOLO
 from PIL import Image
-from openai import OpenAI
+import os, json
 
-# ==============================
-# CONFIGURACIÓN API KEY
-# ==============================
-client = OpenAI(api_key="OPENAI_API_KEY")  
-client = OpenAI()
+# 🚨 Configuración rápida de API Key (solo pruebas, no producción)
+os.environ["OPENAI_API_KEY"] = "OPENAI_API_KEY"   # ← reemplaza con tu API Key real
 
-# ==============================
-# FUNCIONES AUXILIARES
-# ==============================
+# Cargar el modelo entrenado
+model_path = "best.pt"
+if not os.path.exists(model_path):
+    st.error("⚠️ No se encontró 'best.pt'. Asegúrate de haber entrenado el modelo con train.py")
+    st.stop()
 
-# Leer manual (RAG)
-def load_manual():
-    with open("data/manual_tapas.md", "r", encoding="utf-8") as f:
-        return f.read()
+model = YOLO(model_path)
 
-# Chatbot RAG
-def chatbot_rag(user_input, manual_text):
-    prompt = f"""
-    Responde SOLO en base al siguiente documento:
+st.title("🔍 Clasificador de Tapas")
+st.write("Sube una imagen de una tapa y el modelo detectará si está **intacta** o **dañada**.")
 
-    {manual_text}
+uploaded_file = st.file_uploader("Sube una imagen", type=["jpg", "jpeg", "png", "JPG"])
 
-    Pregunta: {user_input}
-    """
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "Eres un experto en control de calidad de tapas."},
-            {"role": "user", "content": prompt}
-        ]
-    )
-    return response.choices[0].message.content
+if uploaded_file is not None:
+    image = Image.open(uploaded_file).convert("RGB")
+    st.image(image, caption="Imagen subida", use_column_width=True)
 
-# ==============================
-# STREAMLIT APP
-# ==============================
-st.set_page_config(page_title="Inspección de Tapas", layout="wide")
-st.title("🔎 Sistema de Inspección de Tapas")
+    # Realizar predicción con YOLO
+    results = model.predict(image)
 
-# Cargar dataset CSV una sola vez
-csv_path = "data/jarlids_annots.csv"
-df = None
-if os.path.exists(csv_path):
-    df = pd.read_csv(csv_path)
-else:
-    st.error(f"No se encontró el archivo `{csv_path}`. Súbelo en la carpeta `data/`.")
+    if results and results[0].boxes:
+        names = model.names
+        annotated_img = results[0].plot()  # Imagen con cajas
+        st.image(annotated_img, caption="Resultado", use_column_width=True)
 
-# Tabs
-tab1, tab2, tab3 = st.tabs(["🤖 Chatbot RAG", "📊 Dataset CSV", "🖼️ Imágenes con etiquetas"])
+        for box in results[0].boxes:
+            cls_id = int(box.cls[0])
+            label = names[cls_id]
+            st.success(f"👉 La tapa fue detectada como: **{label}**")
 
-# ------------------------------
-# TAB 1: CHATBOT
-# ------------------------------
-with tab1:
-    st.header("Asistente de inspección (RAG)")
-    manual_text = load_manual()
-    user_input = st.text_input("Escribe tu consulta sobre las tapas:")
-    if st.button("Preguntar"):
-        if user_input.strip() != "":
-            answer = chatbot_rag(user_input, manual_text)
-            st.markdown(f"**Respuesta:** {answer}")
-        else:
-            st.warning("Por favor, escribe una pregunta.")
+            # Guardar resultado en JSON para el asistente_virtual
+            with open("ultimo_resultado.json", "w", encoding="utf-8") as f:
+                json.dump({"resultado": label}, f, ensure_ascii=False, indent=2)
 
-# ------------------------------
-# TAB 2: DATASET CSV
-# ------------------------------
-with tab2:
-    st.header("Dataset de anotaciones")
-    if df is not None:
-        st.dataframe(df)
     else:
-        st.error("No se pudo cargar el CSV.")
-
-# ------------------------------
-# TAB 3: IMÁGENES CON ETIQUETAS
-# ------------------------------
-with tab3:
-    st.header("Galería de imágenes con sus etiquetas")
-    img_dir = "data/imagenes"
-
-    if df is not None and os.path.exists(img_dir):
-        # Seleccionar una fila del dataset
-        selected_row = st.selectbox("Selecciona un registro", df.index)
-
-        # Obtener info de esa fila
-        row = df.loc[selected_row]
-        filename = row["filename"] if "filename" in df.columns else None
-        label = row["label"] if "label" in df.columns else "Etiqueta no encontrada"
-
-        if filename:
-            img_path = os.path.join(img_dir, filename)
-            if os.path.exists(img_path):
-                image = Image.open(img_path)
-                st.image(image, caption=f"{filename} | Etiqueta: {label}", use_column_width=True)
-            else:
-                st.error(f"La imagen `{filename}` no se encontró en la carpeta {img_dir}.")
-        else:
-            st.warning("El CSV no contiene una columna llamada 'filename'.")
-    else:
-        st.error("Verifica que existan tanto el CSV como la carpeta `data/imagenes/`.")
+        st.warning("No se detectó ninguna tapa en la imagen.")
