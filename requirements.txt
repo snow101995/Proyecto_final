@@ -1,0 +1,7 @@
+streamlit
+ultralytics
+pillow
+pandas
+scikit-learn
+openai
+langchain

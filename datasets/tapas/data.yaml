@@ -1,0 +1,6 @@
+path: D:\DIPLOMA IA\PROYECTO_FINAL\datasets\tapas
+train: train/images
+val: val/images
+names:
+  0: intact
+  1: damaged
