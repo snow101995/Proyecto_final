@@ -4,7 +4,7 @@ from PIL import Image
 import os, json
 
 # 🚨 Configuración rápida de API Key (solo pruebas, no producción)
-os.environ["OPENAI_API_KEY"] = "12345"   # ← reemplaza con tu API Key real
+os.environ["OPENAI_API_KEY"] = "OPENAI_API_KEY"   # ← reemplaza con tu API Key real
 
 # Cargar el modelo entrenado
 model_path = "best.pt"
