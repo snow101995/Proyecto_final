@@ -6,3 +6,6 @@ scikit-learn
 openai
 langchain
 opencv-python-headless
+torch
+torchvision
+torchaudio
