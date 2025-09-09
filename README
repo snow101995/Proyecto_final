@@ -1,0 +1,67 @@
+🛠️ Clasificación de Tapas con Visión Artificial + Asistente Virtual
+
+Este proyecto implementa un sistema de detección de tapas defectuosas en una línea de producción, utilizando redes neuronales convolucionales (YOLOv8).
+
+Además, incluye un asistente virtual desplegado en Streamlit, que responde a los usuarios basándose en el Manual del Sistema Integrado de Gestión de la Calidad (SIGC) incluido en sigc_tapas.md.
+
+📘 Descripción General
+
+El modelo YOLOv8 clasifica tapas en dos categorías:
+
+✅ Intacta
+
+⚠️ Dañada
+
+La app en Streamlit permite:
+
+Subir una imagen de tapa.
+
+Obtener la clasificación en tiempo real.
+
+Guardar resultados en ultimo_resultado.json.
+
+Consultar al asistente virtual, que explica el resultado en base al SIGC Tapas.
+
+🚀 Funcionalidades
+
+Clasificación Automática de Tapas
+
+Entrenamiento con dataset anotado.
+
+Inferencia con best.pt en Streamlit.
+
+Exportación de resultados en JSON.
+
+Asistente Virtual
+
+Integra OpenAI API para lenguaje natural.
+
+Usa como contexto el manual sigc_tapas.md.
+
+Explica resultados y políticas de calidad de manera sencilla.
+
+Sistema Integrado de Gestión de la Calidad (SIGC)
+
+Documentación completa en sigc_tapas.md.
+
+Procesos de dataset, entrenamiento, validación y despliegue.
+
+Indicadores de calidad y mejora continua.
+
+📈 Escalabilidad del Proyecto
+
+Aunque el sistema está enfocado en la clasificación de tapas, la arquitectura está pensada para crecer hacia entornos de producción más complejos que incluyan diversos tipos de productos.
+
+🔄 Reentrenamiento flexible: El modelo YOLOv8 puede adaptarse fácilmente a nuevas clases (ej. envases, etiquetas, botellas, empaques).
+
+📂 Gestión modular de datasets: Estructura escalable para manejar múltiples datasets y anotaciones.
+
+🌐 Integración en línea de producción: Posible conexión con sistemas SCADA/MES para trazabilidad en tiempo real.
+
+🤖 Automatización con IA Generativa: El asistente virtual puede integrarse con más manuales o normativas, respondiendo preguntas sobre diferentes procesos de calidad.
+
+☁️ Despliegue en la nube: El sistema puede ejecutarse en entornos distribuidos (ej. Kubernetes, Streamlit Cloud, AWS, GCP, Azure) para manejar mayor volumen de imágenes.
+
+🧩 Expansión multi-producto: Permite extenderse a clasificación de distintos defectos en varios tipos de componentes de producción (no solo tapas).
+
+Esto convierte el proyecto en una plataforma escalable de control de calidad digital, adaptable a empresas con líneas de producción diversificadas.
