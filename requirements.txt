@@ -1,6 +1,6 @@
 --extra-index-url https://download.pytorch.org/whl/cpu
 streamlit
-ultralytics==8.3.0
+ultralytics==8.0.196
 pillow
 pandas
 scikit-learn
