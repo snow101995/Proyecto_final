@@ -5,7 +5,9 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 
 # 🚨 Configuración rápida de API Key (solo para pruebas)
-os.environ["OPENAI_API_KEY"] = "OPENAI_API_KEY"   # ← aquí pones tu API Key real
+import streamlit as st
+import os
+os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 
 # Cargar SIGC
 sigc_path = "sigc_tapas.md"
