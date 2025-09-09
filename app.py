@@ -1,4 +1,6 @@
 import streamlit as st
+st.write("Secrets cargados:", list(st.secrets.keys()))
+
 from ultralytics import YOLO
 from PIL import Image
 import os, json
