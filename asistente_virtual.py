@@ -5,7 +5,7 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 
 # 🚨 Configuración rápida de API Key (solo para pruebas)
-os.environ["OPENAI_API_KEY"] = "12345"   # ← aquí pones tu API Key real
+os.environ["OPENAI_API_KEY"] = "OPENAI_API_KEY"   # ← aquí pones tu API Key real
 
 # Cargar SIGC
 sigc_path = "sigc_tapas.md"
