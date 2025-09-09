@@ -1,11 +1,11 @@
 streamlit
-ultralytics==8.0.196
+ultralytics
 pillow
 pandas
 scikit-learn
 openai
 langchain
-opencv-python-headless==4.8.1.78
-torch==2.0.1
-torchvision==0.15.2
-torchaudio==2.0.2
+opencv-python-headless
+torch
+torchvision
+torchaudio
